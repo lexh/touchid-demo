@@ -8,12 +8,108 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate {
 
+    @IBOutlet var authenticateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var notes = [NSManagedObject]()
     
+    @IBAction func authenticateButtonPressed(sender: AnyObject) {
+        authenticateUser()
+    }
+    
+    func hideTableView(value:Bool) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.hidden = value
+            self.navigationController!.navigationBar.hidden = value
+            self.authenticateButton.hidden = !value
+        }
+    }
+    
+    func showPasswordAlert() {
+        var passwordAlert : UIAlertView = UIAlertView(title: "Secret Notes", message: "Please type your password", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Okay")
+        passwordAlert.alertViewStyle = UIAlertViewStyle.SecureTextInput
+        dispatch_async(dispatch_get_main_queue()) {
+            passwordAlert.show()
+        }
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        let passwordAttempt:NSString? = alertView.textFieldAtIndex(0)!.text
+        // There are two buttons, 0:Cancel, 1:Okay
+        
+        if buttonIndex == 1 {
+            if passwordAttempt != nil {
+                if passwordAttempt == "stlios" {
+                    self.hideTableView(false)
+                } else {
+                    showPasswordAlert()
+                }
+            }
+        } else {
+            self.hideTableView(true)
+        }
+    }
+    
+    func authenticateUser() {
+        // Get the local authentication context
+        let context:LAContext = LAContext()
+        
+        // Declare an NSError variable
+        var error:NSError? = nil
+        
+        // Set the reason string that will appear on the authentication alert
+        let reasonString = "Authentication required to view these top secret notes!"
+        
+        // Check if the device can evaluate the policy
+        if context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {(success:Bool, evalPolicyError:NSError?)-> Void in
+                if success {
+                    self.hideTableView(false)
+                } else {
+                    // If authentication failed then show a message to the console with a short description.
+                    switch evalPolicyError!.code {
+                        
+                    case LAError.SystemCancel.rawValue:
+                        println("Authentication was cancelled by the system.")
+                        self.hideTableView(true)
+                        
+                    case LAError.UserCancel.rawValue:
+                        println("Authentication was cancelled by the user.")
+                        self.hideTableView(true)
+                        
+                    case LAError.UserFallback.rawValue:
+                        println("User selected to enter a custom password.")
+                        self.showPasswordAlert()
+                        
+                    default:
+                        println("Could not authenticate.")
+                        self.showPasswordAlert()
+                    }
+                }
+                
+            })
+        } else {
+            // The security policy can not be evaluated at all, so display a short message detailing why
+            println(error!.localizedDescription)
+            
+            switch error!.code {
+            case LAError.TouchIDNotEnrolled.rawValue:
+                println("TouchID is not enrolled.")
+            case LAError.PasscodeNotSet.rawValue:
+                println("Passcode is not set")
+            default:
+                println("Something unexpected happened...")
+            }
+            
+            self.showPasswordAlert()
+        }
+    }
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -36,6 +132,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.tableView.reloadData()
+        
+        authenticateUser()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
