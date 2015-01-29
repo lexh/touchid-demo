@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import LocalAuthentication
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate {
 
     @IBOutlet var authenticateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -25,6 +25,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.hidden = value
             self.navigationController!.navigationBar.hidden = value
             self.authenticateButton.hidden = !value
+        }
+    }
+    
+    func showPasswordAlert() {
+        var passwordAlert : UIAlertView = UIAlertView(title: "Secret Notes", message: "Please type your password", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Okay")
+        passwordAlert.alertViewStyle = UIAlertViewStyle.SecureTextInput
+        dispatch_async(dispatch_get_main_queue()) {
+            passwordAlert.show()
         }
     }
     
@@ -58,9 +66,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                         
                     case LAError.UserFallback.rawValue:
                         println("User selected to enter a custom password.")
+                        self.showPasswordAlert()
                         
                     default:
                         println("Could not authenticate.")
+                        self.showPasswordAlert()
                     }
                 }
                 
@@ -77,9 +87,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             default:
                 println("Something unexpected happened...")
             }
+            
+            self.showPasswordAlert()
         }
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
