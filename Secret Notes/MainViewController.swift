@@ -30,6 +30,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {(success:Bool, evalPolicyError:NSError?)-> Void in
                 if success {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tableView.hidden = false
+                    }
                     
                 } else {
                     // If authentication failed then show a message to the console with a short description.
