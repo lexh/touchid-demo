@@ -22,11 +22,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func hideTableView(value:Bool) {
         dispatch_async(dispatch_get_main_queue()) {
-        self.tableView.hidden = value
-        self.navigationController!.navigationBar.hidden = value
-        self.authenticateButton.hidden = !value
-    }
-        
+            self.tableView.hidden = value
+            self.navigationController!.navigationBar.hidden = value
+            self.authenticateButton.hidden = !value
+        }
     }
     
     func authenticateUser() {
