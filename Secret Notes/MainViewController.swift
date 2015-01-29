@@ -40,7 +40,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                         
                     case LAError.UserCancel.rawValue:
                         println("Authentication was cancelled by the user.")
-                        self.notes = [NSManagedObject]()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.tableView.hidden = true
+                        }
                         
                     case LAError.UserFallback.rawValue:
                         println("User selected to enter a custom password.")
