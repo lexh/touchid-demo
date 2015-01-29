@@ -4,8 +4,7 @@
 - [Working with Touch ID API in iOS 8 SDK](http://www.appcoda.com/touch-id-api-ios8) - Gabriel Theodoropoulos
 - [Apple Developer Docs: LAContext](https://developer.apple.com/library/ios/documentation/LocalAuthentication/Reference/LAContext_Class/)
 
-## My Notes From the Presentation
--------------------------------------------------------
+# My Notes From the Presentation
 ## Intro
 
 #### Explain format
