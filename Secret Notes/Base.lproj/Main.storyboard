@@ -49,12 +49,23 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="aWR-X7-QXo"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gTr-3d-glo">
+                                <rect key="frame" x="255" y="285" width="91" height="30"/>
+                                <state key="normal" title="Authenticate!">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="authenticateButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BzT-R7-2Ap"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WtK-MZ-tZu" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LNt-jl-ahB"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="WtK-MZ-tZu" secondAttribute="bottom" id="Wdu-id-buR"/>
                             <constraint firstItem="WtK-MZ-tZu" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="bC2-83-sWt"/>
+                            <constraint firstAttribute="centerX" secondItem="gTr-3d-glo" secondAttribute="centerX" constant="-0.5" id="vOI-M5-uNq"/>
+                            <constraint firstAttribute="centerY" secondItem="gTr-3d-glo" secondAttribute="centerY" id="vUB-V0-ai8"/>
                             <constraint firstAttribute="trailing" secondItem="WtK-MZ-tZu" secondAttribute="trailing" id="wzg-nI-80D"/>
                         </constraints>
                     </view>
@@ -66,6 +77,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="authenticateButton" destination="gTr-3d-glo" id="YpO-AE-Zl9"/>
                         <outlet property="tableView" destination="WtK-MZ-tZu" id="IpV-j9-MlK"/>
                     </connections>
                 </viewController>

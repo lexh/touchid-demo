@@ -8,17 +8,83 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate {
 
+    @IBOutlet var authenticateButton: UIButton!
+    @IBAction func authenticateButtonPressed(sender: AnyObject) {
+        
+        authenticateUser()
+    }
     @IBOutlet weak var tableView: UITableView!
     var notes = [NSManagedObject]()
+    
+    func hideTableView(value:Bool) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.hidden = value
+            self.navigationController!.navigationBar.hidden = value
+            self.authenticateButton.hidden = !value
+        }
+    }
+    
+    func showPasswordAlert() {
+        var passwordAlert:UIAlertView = UIAlertView(title: "Secret Notes", message: "Please enter password", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Okay")
+        passwordAlert.alertViewStyle = UIAlertViewStyle.SecureTextInput
+        dispatch_async(dispatch_get_main_queue()) {
+            passwordAlert.show()
+        }
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        let attemptedPassword = alertView.textFieldAtIndex(0)!.text
+        
+        if buttonIndex == 1 {
+            if attemptedPassword == "stlios" {
+                hideTableView(false)
+            }
+        }
+    }
+    
+    func authenticateUser() {
+        let context = LAContext()
+        var error:NSError?
+        let reasonString:NSString = "You need to authenticate before accessing your secret notes"
+        
+        if(context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error)) {
+            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success:Bool, evalPolicyError:NSError?) -> Void in
+                if success {
+                    self.hideTableView(false)
+                    println("You did it!")
+                    
+                } else {
+                    switch evalPolicyError!.code {
+                    case LAError.UserCancel.rawValue:
+                        println("User pressed cancel button")
+                        self.hideTableView(true)
+                    case LAError.UserFallback.rawValue:
+                        println("User chose to enter password")
+                        self.showPasswordAlert()
+                    default:
+                        println("Could not authenticate...")
+                    }
+                }
+            })
+            
+        } else {
+            switch error!.code {
+            default:
+                println("Catastrophic error!!!")
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         title = "Secret Notes"
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -36,6 +102,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.tableView.reloadData()
+        
+        hideTableView(true)
+        authenticateUser()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -16,6 +16,7 @@
 		D77AA5361A76B545001FB18E /* Secret_NotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AA5351A76B545001FB18E /* Secret_NotesTests.swift */; };
 		D77AA5401A76EDC0001FB18E /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AA53F1A76EDC0001FB18E /* AddViewController.swift */; };
 		D77AA5421A77DB45001FB18E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AA5411A77DB45001FB18E /* DetailViewController.swift */; };
+		D7F1496A1A7ADCC8002C9918 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7F149691A7ADCC8002C9918 /* LocalAuthentication.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		D77AA5351A76B545001FB18E /* Secret_NotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret_NotesTests.swift; sourceTree = "<group>"; };
 		D77AA53F1A76EDC0001FB18E /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		D77AA5411A77DB45001FB18E /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D7F149691A7ADCC8002C9918 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7F1496A1A7ADCC8002C9918 /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +68,7 @@
 		D77AA50E1A76B545001FB18E = {
 			isa = PBXGroup;
 			children = (
+				D7F149691A7ADCC8002C9918 /* LocalAuthentication.framework */,
 				D77AA5191A76B545001FB18E /* Secret Notes */,
 				D77AA5321A76B545001FB18E /* Secret NotesTests */,
 				D77AA5181A76B545001FB18E /* Products */,
@@ -417,6 +421,7 @@
 				D77AA53B1A76B545001FB18E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D77AA53C1A76B545001FB18E /* Build configuration list for PBXNativeTarget "Secret NotesTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +430,7 @@
 				D77AA53E1A76B545001FB18E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
