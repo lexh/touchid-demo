@@ -41,15 +41,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // There are two buttons, 0:Cancel, 1:Okay
         
         if buttonIndex == 1 {
-            if passwordAttempt != nil {
-                if passwordAttempt == "stlios" {
-                    self.hideTableView(false)
-                } else {
-                    showPasswordAlert()
-                }
+            if passwordAttempt == "stlios" {
+                self.hideTableView(false)
             }
-        } else {
-            self.hideTableView(true)
         }
     }
     
@@ -133,6 +127,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.tableView.reloadData()
         
+        hideTableView(true)
         authenticateUser()
     }
     
