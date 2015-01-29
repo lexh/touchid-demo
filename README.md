@@ -6,7 +6,7 @@
 - [Touch ID in Swift](https://swiftcast.tv/articles/getting-started-with-touch-id-in-swift) - Adam Leonard
 
 ## My Notes From the Presentation
-## Intro
+### Intro
 
 #### Explain format
 - Live coding exercise
@@ -21,12 +21,12 @@
 - Not the most secure thing in the world, but at least stored locally
 
 #### Demo the "Secret Notes" app before adding the TouchID authentication
-- Mention using Reflector app because TouchID is not supported i n the simulator
+- Mention using Reflector app because TouchID is not supported in the simulator
 - Add a note
 - Add a another note!
 - Delete a note
 
-## Le Code
+### Le Code
 
 #### MainViewController.swift
 
@@ -90,7 +90,7 @@ func authenticateUser() {
 - Add a call to this function to the main view controller's viewDidAppear method
 - Demo the functionality so far on the phone
 
-## Hiding the Table View
+### Hiding the Table View
 - First thing we can do is hide the tableView if the user taps "Cancel" on the Touch ID UIAlertView
 ```c
 case LAError.UserCancel.rawValue:
@@ -122,7 +122,7 @@ func hideTableView(value:Bool) {
 ```
 - Refactor the evalPolicyError switch statement to use this new function
 
-## Adding the Password Fallback
+### Adding the Password Fallback
 - Explain the need to a fallback option, in case of thumbs being severed or something else fancy like that
 - Add comments to show where our new function, `showPasswordAlert()` will be called from (In two branches of the evalPolicyError switch, and as the last statement in the canEvalPolicy else clause)
 - Add the function
