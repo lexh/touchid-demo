@@ -12,8 +12,22 @@ import LocalAuthentication
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet var authenticateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var notes = [NSManagedObject]()
+    
+    @IBAction func authenticateButtonPressed(sender: AnyObject) {
+        authenticateUser()
+    }
+    
+    func hideTableView(value:Bool) {
+        dispatch_async(dispatch_get_main_queue()) {
+        self.tableView.hidden = value
+        self.navigationController!.navigationBar.hidden = value
+        self.authenticateButton.hidden = !value
+    }
+        
+    }
     
     func authenticateUser() {
         // Get the local authentication context
@@ -30,22 +44,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {(success:Bool, evalPolicyError:NSError?)-> Void in
                 if success {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView.hidden = false
-                    }
-                    
+                    self.hideTableView(false)
                 } else {
                     // If authentication failed then show a message to the console with a short description.
                     switch evalPolicyError!.code {
                         
                     case LAError.SystemCancel.rawValue:
                         println("Authentication was cancelled by the system.")
+                        self.hideTableView(true)
                         
                     case LAError.UserCancel.rawValue:
                         println("Authentication was cancelled by the user.")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.tableView.hidden = true
-                        }
+                        self.hideTableView(true)
                         
                     case LAError.UserFallback.rawValue:
                         println("User selected to enter a custom password.")
