@@ -2,9 +2,11 @@
 
 ## Resources
 - [Working with Touch ID API in iOS 8 SDK](http://www.appcoda.com/touch-id-api-ios8) - Gabriel Theodoropoulos
-- [Apple Developer Docs: LAContext](https://developer.apple.com/library/ios/documentation/LocalAuthentication/Reference/LAContext_Class/)
+- [Apple Developer Docs: LAContext](https://developer.apple.com/library/ios/documentation/LocalAuthentication/Reference/LAContext_Class/) - Apple
+- [Touch ID in Swift](https://swiftcast.tv/articles/getting-started-with-touch-id-in-swift) - Adam Leonard
 
-# My Notes From the Presentation
+## My Notes From the Presentation
+-------------------------------------------------------
 ## Intro
 
 #### Explain format
@@ -20,6 +22,7 @@
 - Not the most secure thing in the world, but at least stored locally
 
 #### Demo the "Secret Notes" app before adding the TouchID authentication
+- Mention using Reflector app because TouchID is not supported i n the simulator
 - Add a note
 - Add a another note!
 - Delete a note
@@ -143,15 +146,9 @@ func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
   // There are two buttons, 0:Cancel, 1:Okay
         
   if buttonIndex == 1 {
-    if passwordAttempt != nil {
-      if passwordAttempt == "stlios" {
-        self.hideTableView(false)
-      } else {
-        showPasswordAlert()
-      }
+    if attemptedPassword == "stlios" {
+      hideTableView(false)
     }
-  } else {
-    self.hideTableView(true)
   }
 }
 ```
