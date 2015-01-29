@@ -8,11 +8,63 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     var notes = [NSManagedObject]()
+    
+    func authenticateUser() {
+        // Get the local authentication context
+        let context:LAContext = LAContext()
+        
+        // Declare an NSError variable
+        var error:NSError? = nil
+        
+        // Set the reason string that will appear on the authentication alert
+        let reasonString = "Authentication required to view these top secret notes!"
+        
+        // Check if the device can evaluate the policy
+        if context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {(success:Bool, evalPolicyError:NSError?)-> Void in
+                if success {
+                    
+                } else {
+                    // If authentication failed then show a message to the console with a short description.
+                    switch evalPolicyError!.code {
+                        
+                    case LAError.SystemCancel.rawValue:
+                        println("Authentication was cancelled by the system.")
+                        
+                    case LAError.UserCancel.rawValue:
+                        println("Authentication was cancelled by the user.")
+                        self.notes = [NSManagedObject]()
+                        
+                    case LAError.UserFallback.rawValue:
+                        println("User selected to enter a custom password.")
+                        
+                    default:
+                        println("Could not authenticate.")
+                    }
+                }
+                
+            })
+        } else {
+            // The security policy can not be evaluated at all, so display a short message detailing why
+            println(error!.localizedDescription)
+            
+            switch error!.code {
+            case LAError.TouchIDNotEnrolled.rawValue:
+                println("TouchID is not enrolled.")
+            case LAError.PasscodeNotSet.rawValue:
+                println("Passcode is not set")
+            default:
+                println("Something unexpected happened...")
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +88,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.tableView.reloadData()
+        
+        authenticateUser()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
