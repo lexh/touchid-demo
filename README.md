@@ -6,7 +6,6 @@
 - [Touch ID in Swift](https://swiftcast.tv/articles/getting-started-with-touch-id-in-swift) - Adam Leonard
 
 ## My Notes From the Presentation
--------------------------------------------------------
 ## Intro
 
 #### Explain format
