@@ -36,6 +36,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        let passwordAttempt:NSString? = alertView.textFieldAtIndex(0)!.text
+        // There are two buttons, 0:Cancel, 1:Okay
+        
+        if buttonIndex == 1 {
+            if passwordAttempt != nil {
+                if passwordAttempt == "stlios" {
+                    self.hideTableView(false)
+                } else {
+                    showPasswordAlert()
+                }
+            }
+        } else {
+            self.hideTableView(true)
+        }
+    }
+    
     func authenticateUser() {
         // Get the local authentication context
         let context:LAContext = LAContext()
