@@ -2,8 +2,9 @@
 
 ## Resources
 - [Working with Touch ID API in iOS 8 SDK](http://www.appcoda.com/touch-id-api-ios8) - Gabriel Theodoropoulos
-- [Apple Developer Docs: LAContext](https://developer.apple.com/library/ios/documentation/LocalAuthentication/Reference/LAContext_Class/) - Apple
 - [Touch ID in Swift](https://swiftcast.tv/articles/getting-started-with-touch-id-in-swift) - Adam Leonard
+- [Apple Developer Docs: LAContext](https://developer.apple.com/library/ios/documentation/LocalAuthentication/Reference/LAContext_Class/) - Apple
+- [Automatic Reference Counting](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-XID_61) - Apple
 
 ## My Notes From the Presentation
 ### Intro

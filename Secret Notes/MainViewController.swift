@@ -60,7 +60,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Check if the device can evaluate the policy
         if context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
             
-            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {(success:Bool, evalPolicyError:NSError?)-> Void in
+            context.evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: {[unowned self] (success:Bool, evalPolicyError:NSError?)-> Void in
                 if success {
                     self.hideTableView(false)
                 } else {
